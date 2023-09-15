@@ -1,7 +1,8 @@
 var path,boy,cash,diamonds,jwellery,sword;
 var pathImg,boyImg,cashImg,diamondsImg,jwelleryImg,swordImg;
 var treasureCollection = 0;
-var cashG,diamondsG,jwelleryG,swordGroup,gameover;
+var cashG,diamondsG,jwelleryG,swordGroup;
+var gameOver
 
 //Game States
 var PLAY=1;
@@ -16,7 +17,31 @@ function preload(){
   jwelleryImg = loadImage("jwell.png");
   swordImg = loadImage("sword.png");
  //write a code to load the image named gameOver.png
- gameover = loadImage("gameOver.png");
+ gameOver = loadAnimation("gameOver.png")
+
+}
+
+function setup(){
+  
+  createCanvas(400,600);
+// Moving background
+  
+path=createSprite(200,200);
+path.addImage(pathImg);
+path.velocityY = 4;
+
+
+//creating boy running
+boy = createSprite(70,580,20,20);
+boy.addAnimation("SahilRunning",boyImg);
+boy.scale=0.08;
+  
+
+cashG=new Group();
+diamondsG=new Group();
+jwelleryG=new Group();
+swordGroup=new Group();
+
 }
 
 function draw() {
@@ -54,7 +79,7 @@ function draw() {
       if(swordGroup.isTouching(boy)) {
         gameState=END;
        
-        
+       if(gameState===END){
         cashG.destroyEach();
         diamondsG.destroyEach();
         jwelleryG.destroyEach();
@@ -65,10 +90,14 @@ function draw() {
         jwelleryG.setVelocityYEach(0);
         swordGroup.setVelocityYEach(0);
 
-if(gameState===END){
-gameover.visible = true;
-path.velocityX = 0;
-}
+ //create a sprite
+ gameOverS = createSprite(200,300,50,50)
+ //add a animation for gameover
+ gameOverS.addAnimation("game end",gameOver)
+ //scale the gameover image
+ gameOverS.scale=0.5
+ boy.destroy()
+ }
 
        
      
@@ -126,5 +155,3 @@ function createSword(){
   swordGroup.add(sword);
   }
 }
-
-
